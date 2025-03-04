@@ -5,10 +5,10 @@ import { IoIosSearch } from "react-icons/io";
 import { Input } from "@/components/ui/input";
 const MainHeader = () => {
   return (
-    <div>
+    <div className="mb-4">
       <div className="max-w-[1200px] mx-auto flex items-center justify-between ">
         <div>
-          <p className="text-2xl text-white mb-6">
+          <p className="text-3xl text-white mb-6">
             If you just work on stuff that you like and you're passionate about,
             you don't have to have a master plan with how things will play out.
           </p>
