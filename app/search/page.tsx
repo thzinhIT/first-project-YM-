@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { Suspense } from "react";
 import Header from "../header";
 import ListSearch from "./[search]/list-search";
 const pageSearch = () => {
@@ -10,7 +10,10 @@ const pageSearch = () => {
           <div className="max-w-[1200px] mx-auto ">
             <Header />
           </div>
-          <ListSearch />
+          <Suspense>
+            {" "}
+            <ListSearch />
+          </Suspense>
         </div>
       </div>
       <div></div>

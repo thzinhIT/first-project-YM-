@@ -1,4 +1,5 @@
 "use client";
+import { Suspense } from "react";
 import Header from "../header";
 import ListBlog from "./list-blog";
 export default function Blog() {
@@ -8,7 +9,10 @@ export default function Blog() {
         <div className="max-w-[1200px] mx-auto ">
           <Header />
         </div>
-        <ListBlog />
+        <Suspense>
+          {" "}
+          <ListBlog />
+        </Suspense>
       </div>
       <div></div>
     </>
