@@ -2,7 +2,7 @@
 import Header from "./header";
 import MainHeader from "./MainHeader";
 import SearchTags from "./search-tag";
-import Articles from "./articles";
+import Articles from "./Articles";
 import { useState } from "react";
 export default function Home() {
   interface Tag {
