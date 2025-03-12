@@ -56,13 +56,13 @@ export default function DetailBlog() {
 
   return (
     <>
-      <div className="dark:bg-[rgb(31,41,55)]  bg-gray-700  min-h-[100vh] ">
+      <div className="dark:bg-[rgb(31,41,55)]  bg-gray-700  min-h-[100vh] p-4 ">
         <div className="max-w-[1200px] mx-auto ">
           <Header />
         </div>
-        <div className="max-w-[1200px] mx-auto py-12  flex gap-7 items-start">
+        <div className="max-w-[1200px] mx-auto py-12  flex gap-7 items-start flex-col lg:flex-row">
           {newData.length > 0 && (
-            <div className="w-[75.25%]">
+            <div className="lg:w-[75.25%] w-full">
               <h1 className="font-bold text-3xl text-white mb-4">
                 {newData[0].author}
               </h1>
@@ -102,6 +102,7 @@ export default function DetailBlog() {
               </div>
             </div>
           )}
+
           <Describe />
         </div>
       </div>

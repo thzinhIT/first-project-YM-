@@ -4,7 +4,7 @@ import avatar from "../../assets/img/280475888_577995827081674_89098830223290146
 
 const Describe = () => {
   return (
-    <div className="p-4 bg-white rounded-xl w-[24.25%] sticky top-[50px] ">
+    <div className="p-4 bg-white rounded-xl  sticky top-[50px] w-full lg:w-[24.25%]">
       <div className="py-4">
         <div className="flex items-center gap-2 ">
           <div>
