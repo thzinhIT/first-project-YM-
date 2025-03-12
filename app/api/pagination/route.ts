@@ -1,9 +1,18 @@
 import posts from "@/app/assets/mock-data/mock-post";
 import { NextResponse } from "next/server";
 import type { NextApiRequest, NextApiResponse } from "next";
-export async function GET(req: Request) {
+export async function GET(req: Request, res: NextApiResponse) {
   try {
     // Mock data: Danh sách bài viết mẫu
+    res.setHeader("Access-Control-Allow-Origin", "*"); // Cho phép tất cả các nguồn
+    res.setHeader(
+      "Access-Control-Allow-Methods",
+      "GET, POST, PUT, DELETE, OPTIONS"
+    );
+    res.setHeader(
+      "Access-Control-Allow-Headers",
+      "Content-Type, Authorization"
+    );
     const data = posts;
     const { searchParams } = new URL(req.url);
     const page = Number(searchParams.get("page")) || 1;
