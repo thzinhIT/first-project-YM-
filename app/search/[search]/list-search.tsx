@@ -24,7 +24,7 @@ const ListSearch = () => {
   useEffect(() => {
     const fecthGet = async () => {
       const res = await fetch(
-        `http://localhost:3000/api/pagination?search${searchParams.toString()}`
+        `https://first-project-ym-e9fm.vercel.app/api/pagination?search${searchParams.toString()}`
       );
 
       const result = await res.json();

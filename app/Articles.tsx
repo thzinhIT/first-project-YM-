@@ -7,7 +7,9 @@ const Articles = () => {
   const [data, setData] = useState([]);
   useEffect(() => {
     const articles = async () => {
-      const res = await fetch("http://localhost:3000/api/hello");
+      const res = await fetch(
+        "https://first-project-ym-e9fm.vercel.app/api/hello"
+      );
       const result = await res.json();
       console.log("<<<< check đây  nghệ sĩ", result.data);
       setData(result.data.slice(0, 4));

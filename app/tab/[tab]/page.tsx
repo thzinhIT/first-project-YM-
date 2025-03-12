@@ -25,7 +25,7 @@ export default function TagPage(params: any) {
   useEffect(() => {
     const fecthGet = async () => {
       const res = await fetch(
-        `http://localhost:3000/api/pagination?tab=${params.params.tab}`
+        `https://first-project-ym-e9fm.vercel.app/api/pagination?tab=${params.params.tab}`
       );
       const result = await res.json();
 

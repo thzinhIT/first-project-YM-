@@ -37,7 +37,7 @@ const ListBlog = () => {
   useEffect(() => {
     const listBlog = async () => {
       const res = await fetch(
-        `http://localhost:3000/api/pagination?page=${currentPage}&size=${productsPerPage}`
+        `https://first-project-ym-e9fm.vercel.app/api/pagination?page=${currentPage}&size=${productsPerPage}`
       );
       const result = await res.json();
       console.log("<<<< check đây  nghệ sĩ", result.data);
