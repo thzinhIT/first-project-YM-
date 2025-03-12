@@ -28,16 +28,34 @@ export async function GET(req: Request) {
     const paginatedSearch = data.filter((x) =>
       x.title.toLowerCase().includes(result.toLowerCase())
     );
-    return NextResponse.json({
-      data: paginatedData,
-      totalPages: Math.ceil(data.length / size),
-      tag: paginatedTag,
-      search: paginatedSearch,
-    });
+
+    const headers = new Headers();
+    headers.set("Access-Control-Allow-Origin", "*");
+    headers.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    return new NextResponse(
+      JSON.stringify({
+        data: paginatedData,
+        totalPages: Math.ceil(posts.length / size),
+        tag: paginatedTag,
+        search: paginatedSearch,
+      }),
+      { status: 200, headers }
+    );
   } catch (error) {
     return NextResponse.json(
       { success: false, error: (error as Error).message },
       { status: 500 }
     );
   }
+}
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 200,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization",
+    },
+  });
 }
