@@ -1,3 +1,4 @@
+"use client";
 import Header from "../header";
 import ListBlog from "./list-blog";
 export default function Blog() {

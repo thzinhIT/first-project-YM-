@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Header from "../header";
 import ListSearch from "./[search]/list-search";
