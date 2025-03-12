@@ -32,7 +32,9 @@ export default function DetailBlog() {
   useEffect(() => {
     const fetchGet = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/hello");
+        const res = await fetch(
+          "https://first-project-ym-e9fm.vercel.app/api/hello"
+        );
         const result = await res.json();
 
         if (!result.data) {
