@@ -3,6 +3,9 @@ import React, { useState, useEffect } from "react";
 
 import { DialogDelete } from "./modal-delete-user";
 import TableUser from "./table-user";
+import { IoAddCircleSharp } from "react-icons/io5";
+import { DialogCreate } from "./modal-create-user";
+
 const Page = () => {
   interface User {
     _id: string;
@@ -12,20 +15,20 @@ const Page = () => {
 
   const [listUser, setListUser] = useState<User[]>([]);
   const [open, setOpen] = useState(false);
-  const [openDialoDelete, setOpenDialoDelete] = useState(false);
+  const [openDialogDelete, setOpenDialogDelete] = useState(false);
   const [dataDelete, setDataDelete] = useState<User>();
   useEffect(() => {
-    const fetchUser = async () => {
-      const res = await fetch("http://localhost:3000/api/getuser");
-      const data = await res.json();
-      console.log("<<< check data đây", data);
-      setListUser(data);
-    };
     fetchUser();
   }, []);
+  const fetchUser = async () => {
+    const res = await fetch("http://localhost:3000/api/getuser");
+    const data = await res.json();
+    console.log("<<< check data đây", data);
+    setListUser(data);
+  };
   console.log("<<< check user", listUser);
-  const handleDialoDelete = (item: User) => {
-    setOpenDialoDelete(true);
+  const handleDialogDelete = (item: User) => {
+    setOpenDialogDelete(true);
     setDataDelete(item);
     console.log("123", dataDelete);
   };
@@ -37,15 +40,22 @@ const Page = () => {
           {" "}
           List User đây nè !!!
         </h2>
+
+        <button className="bg-blue-400 rounded-md flex justify-center items-center px-2 py-1 gap-1 active:-scale-50 duration-1000 mb-4 ml-auto mr-5">
+          <IoAddCircleSharp className="text-green-900 text-lg font-bold" />
+          <p>Add user</p>
+        </button>
+
         <div>
           <TableUser
             listUser={listUser}
-            handleDialoDelete={handleDialoDelete}
+            handleDialogDelete={handleDialogDelete}
           />
           <DialogDelete
-            open={openDialoDelete}
-            setOpen={setOpenDialoDelete}
+            open={openDialogDelete}
+            setOpen={setOpenDialogDelete}
             dataDelete={dataDelete}
+            fetchUser={fetchUser}
           />
         </div>
       </div>

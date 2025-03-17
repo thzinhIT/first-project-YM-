@@ -19,13 +19,12 @@ interface User {
 }
 interface TableUserProps {
   listUser: User[];
-  handleDialoDelete: (item: User) => void;
+  handleDialogDelete: (item: User) => void;
 }
 const TableUser: React.FC<TableUserProps> = ({
   listUser,
-  handleDialoDelete,
+  handleDialogDelete,
 }) => {
-  const [open, setOpen] = useState(false);
   const user = listUser;
   console.log("<<<<< check user", user);
   return (
@@ -51,7 +50,7 @@ const TableUser: React.FC<TableUserProps> = ({
                     {/* <DialogDemo open={open} setOpen={setOpen} /> */}
                     <IoMdCloseCircle
                       className="text-red-600 text-xl cursor-pointer"
-                      onClick={() => handleDialoDelete(item)}
+                      onClick={() => handleDialogDelete(item)}
                     />
                     <FaPencilAlt className="text-blue-600 text-xl cursor-pointer" />
                   </TableCell>

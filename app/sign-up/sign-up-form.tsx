@@ -1,10 +1,3 @@
-// import React from "react";
-
-// const Signup = () => {
-//   return <div> Signup</div>;
-// };
-
-// export default Signup;
 "use client";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -17,15 +10,12 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { FormEvent, useState } from "react";
+
 import { useRouter } from "next/navigation";
-import { ToastContainer, toast } from "react-toastify";
-import { object, Schema, z, ZodSchema } from "zod";
+import { toast } from "react-toastify";
+import { z } from "zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { emitWarning } from "process";
-import { headers } from "next/headers";
-import { CgPassword } from "react-icons/cg";
 
 interface SignUp {
   email: string;
@@ -34,7 +24,7 @@ interface SignUp {
 export default function SignUpForm({
   className,
   ...props
-}: React.ComponentPropsWithoutRef<"div">) {
+}: Readonly<React.ComponentPropsWithoutRef<"div">>) {
   const router = useRouter();
 
   const validate = z.object({

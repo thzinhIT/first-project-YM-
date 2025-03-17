@@ -17,7 +17,7 @@ interface User {
   email: string;
   password: string;
 }
-export function DialogDelete({
+export function DialogCreate({
   open,
   setOpen,
   dataDelete,

@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { FormEvent, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { toast } from "react-toastify";
@@ -20,8 +19,8 @@ interface Login {
   email: string;
   password: string;
 }
-import { isValid, object, Schema, z, ZodSchema } from "zod";
-import { CgPassword } from "react-icons/cg";
+import { z } from "zod";
+
 export function LoginForm({
   className,
   ...props
@@ -56,36 +55,7 @@ export function LoginForm({
       }
     } catch {}
   };
-  // const handleSubmit = async (e: FormEvent) => {
-  //   e.preventDefault();
 
-  //   const dataEmail = "thanhvinh@gmail.com";
-  //   const dataPassword = "123456";
-  //   // gọi api login
-  //   try {
-  //     const response = await fetch("/api/login", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ email, password }),
-  //     });
-
-  //     const data = await response.json();
-  //     if (response.ok) {
-  //       toast.success("Đăng nhập thành công!");
-  //       router.push("/");
-  //     } else {
-  //       toast.error(data.error || "Đăng nhập thất bại");
-  //       setEmail("");
-  //       setPassword("");
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-
-  //   console.log("submitted", email, password);
-  // };
   return (
     <div className={cn("flex flex-col gap-6 ", className)} {...props}>
       <Card>
