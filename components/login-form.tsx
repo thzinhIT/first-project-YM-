@@ -15,11 +15,12 @@ import Link from "next/link";
 import { toast } from "react-toastify";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+
+import { z } from "zod";
 interface Login {
   email: string;
   password: string;
 }
-import { z } from "zod";
 
 export function LoginForm({
   className,
@@ -33,7 +34,7 @@ export function LoginForm({
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<Login>({
     resolver: zodResolver(validate),
   });

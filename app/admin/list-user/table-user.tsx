@@ -42,7 +42,7 @@ const TableUser: React.FC<TableUserProps> = ({
           {user.length !== 0 ? (
             user.map((item: User, index: number) => {
               return (
-                <TableRow key={item._id}>
+                <TableRow key={item._id} className="py-2">
                   <TableCell className="font-medium">{index + 1}</TableCell>
                   <TableCell>{item.email}</TableCell>
                   <TableCell>{item.password} </TableCell>

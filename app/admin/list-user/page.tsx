@@ -17,6 +17,7 @@ const Page = () => {
   const [open, setOpen] = useState(false);
   const [openDialogDelete, setOpenDialogDelete] = useState(false);
   const [dataDelete, setDataDelete] = useState<User>();
+  const [openDialogCreate, setOpenDialogCreate] = useState(false);
   useEffect(() => {
     fetchUser();
   }, []);
@@ -32,6 +33,9 @@ const Page = () => {
     setDataDelete(item);
     console.log("123", dataDelete);
   };
+  const handleDialogCreate = () => {
+    setOpenDialogCreate(true);
+  };
   return (
     <>
       {" "}
@@ -41,7 +45,10 @@ const Page = () => {
           List User đây nè !!!
         </h2>
 
-        <button className="bg-blue-400 rounded-md flex justify-center items-center px-2 py-1 gap-1 active:-scale-50 duration-1000 mb-4 ml-auto mr-5">
+        <button
+          onClick={() => handleDialogCreate()}
+          className="bg-blue-400 rounded-md flex justify-center items-center px-2 py-1 gap-1 active:-scale-50 duration-1000 mb-2 ml-auto mr-5 "
+        >
           <IoAddCircleSharp className="text-green-900 text-lg font-bold" />
           <p>Add user</p>
         </button>
@@ -55,6 +62,11 @@ const Page = () => {
             open={openDialogDelete}
             setOpen={setOpenDialogDelete}
             dataDelete={dataDelete}
+            fetchUser={fetchUser}
+          />
+          <DialogCreate
+            open={openDialogCreate}
+            setOpen={setOpenDialogCreate}
             fetchUser={fetchUser}
           />
         </div>

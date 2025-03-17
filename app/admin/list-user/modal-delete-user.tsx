@@ -11,6 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 interface User {
   _id: string;
@@ -43,11 +44,16 @@ export function DialogDelete({
           password: dataDelete?.password ?? "",
         }),
       });
-      console.log("1234545", res);
+      const req = await res.json();
+      if (res.ok) {
+        setIsOpen(false);
+        toast.success(req.message);
+        fetchUser();
+      } else {
+        toast.error(req.message);
+      }
     };
     fetchDelete();
-    setIsOpen(false);
-    fetchUser();
   };
 
   return (
