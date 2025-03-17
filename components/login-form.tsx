@@ -14,44 +14,78 @@ import { FormEvent, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { toast } from "react-toastify";
-
+import { useForm, SubmitHandler } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+interface Login {
+  email: string;
+  password: string;
+}
+import { isValid, object, Schema, z, ZodSchema } from "zod";
+import { CgPassword } from "react-icons/cg";
 export function LoginForm({
   className,
   ...props
 }: Readonly<React.ComponentPropsWithoutRef<"div">>) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const router = useRouter();
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-
-    const dataEmail = "thanhvinh@gmail.com";
-    const dataPassword = "123456";
-    // gọi api login
+  const validate = z.object({
+    email: z.string().email("email 3 nhập sai rồi kìa 3!!!!"),
+    password: z.string().min(6, "3 phải nhập nhìu hơn 6 ký tự"),
+  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<Login>({
+    resolver: zodResolver(validate),
+  });
+  const Onsubmit: SubmitHandler<Login> = async (data) => {
     try {
-      const response = await fetch("/api/login", {
+      const res = await fetch("http://localhost:3000/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email: data.email, password: data.password }),
       });
-
-      const data = await response.json();
-      if (response.ok) {
+      const req = await res.json();
+      if (res.ok) {
         toast.success("Đăng nhập thành công!");
         router.push("/");
       } else {
-        toast.error(data.error || "Đăng nhập thất bại");
-        setEmail("");
-        setPassword("");
+        toast.error(req.error || "Đăng nhập thất bại");
       }
-    } catch (error) {
-      console.log(error);
-    }
-
-    console.log("submitted", email, password);
+    } catch {}
   };
+  // const handleSubmit = async (e: FormEvent) => {
+  //   e.preventDefault();
+
+  //   const dataEmail = "thanhvinh@gmail.com";
+  //   const dataPassword = "123456";
+  //   // gọi api login
+  //   try {
+  //     const response = await fetch("/api/login", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ email, password }),
+  //     });
+
+  //     const data = await response.json();
+  //     if (response.ok) {
+  //       toast.success("Đăng nhập thành công!");
+  //       router.push("/");
+  //     } else {
+  //       toast.error(data.error || "Đăng nhập thất bại");
+  //       setEmail("");
+  //       setPassword("");
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+
+  //   console.log("submitted", email, password);
+  // };
   return (
     <div className={cn("flex flex-col gap-6 ", className)} {...props}>
       <Card>
@@ -62,18 +96,21 @@ export function LoginForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit(Onsubmit)}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
-                  type="email"
+                  type="text"
                   placeholder="m@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
+                  {...register("email")}
                 />
+                {errors.email && (
+                  <div className="text-red-500 rounded-lg p-1 duration-700 text-sm">
+                    {errors.email.message}
+                  </div>
+                )}
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
@@ -88,10 +125,13 @@ export function LoginForm({
                 <Input
                   id="password"
                   type="password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  {...register("password")}
                 />
+                {errors.password && (
+                  <div className="text-red-500 p-1 text-sm">
+                    {errors.password.message}
+                  </div>
+                )}
               </div>
               <Button type="submit" className="w-full">
                 Login

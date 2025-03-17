@@ -20,54 +20,81 @@ import { Label } from "@/components/ui/label";
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
+import { object, Schema, z, ZodSchema } from "zod";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { emitWarning } from "process";
+import { headers } from "next/headers";
+import { CgPassword } from "react-icons/cg";
 
+interface SignUp {
+  email: string;
+  password: string;
+}
 export default function SignUpForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const router = useRouter();
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
 
-    // const dataEmail = "thanhvinh@gmail.com";
-    // const dataPassword = "123456";
+  const validate = z.object({
+    email: z.string().email("nhập sai email kìa r a 2!!!!"),
+    password: z.string().min(6, "min là 6 ký tự để nhắc mãi!!!"),
+  });
 
-    // if (email === dataEmail && password === dataPassword) {
-    //   router.push("/");
-    // } else {
-    //   alert("Email or password is incorrect");
-    //   setEmail("");
-    //   setPassword("");
-    // }
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignUp>({ resolver: zodResolver(validate) });
 
-    // gọi Post API SIgn-up
+  const onSubmit: SubmitHandler<SignUp> = async (data) => {
+    const res = await fetch("http://localhost:3000/api/sign-up", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email: data.email, password: data.password }),
+    });
 
-    try {
-      const res = await fetch("/api/sign-up", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-      const data = await res.json();
-      console.log("<<< check data đây", data);
-      if (res.ok) {
-        toast.success("Đăng ký thành công!");
+    const req = await res.json();
+    if (res.ok) {
+      toast.success("Đăng ký thành công!");
 
-        router.push("/login");
-      } else {
-        toast.error(data.error || "Đăng ký thất bại");
-        setEmail("");
-        setPassword("");
-      }
-    } catch (error) {
-      console.log(error);
+      router.push("/login");
+    } else {
+      toast.error(req.error || "Đăng ký thất bại");
     }
-    console.log("submitted", email, password);
   };
+
+  // const handleSubmit = async (e: FormEvent) => {
+  //   e.preventDefault();
+  //   // gọi Post API SIgn-up
+
+  //   try {
+  //     const res = await fetch("/api/sign-up", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ email, password }),
+  //     });
+  //     const data = await res.json();
+  //     console.log("<<< check data đây", data);
+  //     if (res.ok) {
+  //       toast.success("Đăng ký thành công!");
+
+  //       router.push("/login");
+  //     } else {
+  //       toast.error(data.error || "Đăng ký thất bại");
+  //       setEmail("");
+  //       setPassword("");
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  //   console.log("submitted", email, password);
+  // };
   return (
     <div className={cn("flex flex-col gap-6 ", className)} {...props}>
       <Card>
@@ -78,18 +105,21 @@ export default function SignUpForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
-                  type="email"
+                  type="text"
                   placeholder="m@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
+                  {...register("email")}
                 />
+                {errors.email && (
+                  <div className="text-red-500 rounded-lg p-1 duration-700 text-sm">
+                    {errors.email.message}
+                  </div>
+                )}
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
@@ -98,10 +128,13 @@ export default function SignUpForm({
                 <Input
                   id="password"
                   type="password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  {...register("password")}
                 />
+                {errors.password && (
+                  <div className="text-red-500 rounded-lg p-1 duration-700 text-sm">
+                    {errors.password.message}
+                  </div>
+                )}
               </div>
               <Button type="submit" className="w-full">
                 Sign-up
