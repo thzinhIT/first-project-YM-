@@ -49,8 +49,14 @@ export function LoginForm({
       });
       const req = await res.json();
       if (res.ok) {
+        localStorage.setItem("token", req.token);
+        localStorage.setItem("role", req.user.role);
         toast.success("Đăng nhập thành công!");
-        router.push("/");
+        if (req.user.role === "admin") {
+          router.push("/admin");
+        } else {
+          router.push("/");
+        }
       } else {
         toast.error(req.error || "Đăng nhập thất bại");
       }

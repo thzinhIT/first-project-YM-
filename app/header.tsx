@@ -7,6 +7,7 @@ import Link from "next/link";
 import ModeToggle from "../app/test/page";
 
 const Header = () => {
+  const [position, setPosition] = React.useState("bottom");
   return (
     <div className="max-w-[1200px] mx-auto ">
       <header className="flex justify-between items-center py-4 px-4  lg:px-4 md:px-4">
@@ -31,6 +32,9 @@ const Header = () => {
           </span>
         </div>
         <div>
+          <button className="dark:bg-[rgb(31,41,55)] bg-gray-700 mr-4 font-semibold text-sm">
+            Log out
+          </button>
           {/* <CgDarkMode className="w-6 h-6 text-white cursor-pointer" /> */}
           <ModeToggle />
         </div>

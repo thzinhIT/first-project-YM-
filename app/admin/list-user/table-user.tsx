@@ -16,14 +16,17 @@ interface User {
   _id: string;
   email: string;
   password: string;
+  role: string;
 }
 interface TableUserProps {
   listUser: User[];
   handleDialogDelete: (item: User) => void;
+  handleDialogUpdate: () => void;
 }
 const TableUser: React.FC<TableUserProps> = ({
   listUser,
   handleDialogDelete,
+  handleDialogUpdate,
 }) => {
   const user = listUser;
   console.log("<<<<< check user", user);
@@ -35,6 +38,8 @@ const TableUser: React.FC<TableUserProps> = ({
             <TableHead className="w-[100px]">Numerical Order</TableHead>
             <TableHead>Email</TableHead>
             <TableHead>PassWord</TableHead>
+            <TableHead>Role</TableHead>
+
             <TableHead>Action</TableHead>
           </TableRow>
         </TableHeader>
@@ -43,16 +48,23 @@ const TableUser: React.FC<TableUserProps> = ({
             user.map((item: User, index: number) => {
               return (
                 <TableRow key={item._id} className="py-2">
-                  <TableCell className="font-medium">{index + 1}</TableCell>
+                  <TableCell className="font-medium py-4">
+                    {index + 1}
+                  </TableCell>
                   <TableCell>{item.email}</TableCell>
                   <TableCell>{item.password} </TableCell>
+                  <TableCell>{item.role} </TableCell>
+
                   <TableCell className="flex gap-5">
                     {/* <DialogDemo open={open} setOpen={setOpen} /> */}
                     <IoMdCloseCircle
                       className="text-red-600 text-xl cursor-pointer"
                       onClick={() => handleDialogDelete(item)}
                     />
-                    <FaPencilAlt className="text-blue-600 text-xl cursor-pointer" />
+                    <FaPencilAlt
+                      className="text-blue-600 text-xl cursor-pointer"
+                      onClick={() => handleDialogUpdate()}
+                    />
                   </TableCell>
                 </TableRow>
               );

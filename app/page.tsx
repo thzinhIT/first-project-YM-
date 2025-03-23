@@ -4,6 +4,8 @@ import MainHeader from "./MainHeader";
 import SearchTags from "./search-tag";
 import Articles from "./Articles";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import LoginModal from "./modal-login";
 export default function Home() {
   interface Tag {
     id: number;
@@ -44,6 +46,7 @@ export default function Home() {
           </div>
 
           <Articles />
+          <LoginModal />
         </div>
       </div>
 

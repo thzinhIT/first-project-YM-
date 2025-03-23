@@ -34,7 +34,7 @@ const items = [
   },
   {
     title: "List Blogs",
-    url: "#",
+    url: "/admin/list-blog",
     icon: Newspaper,
   },
   {

@@ -1,21 +1,33 @@
 import { getDatabase } from "@/lib/mongodb";
 import { NextResponse } from "next/server";
+import bcrypt from "bcryptjs";
+
 export async function POST(req: Request) {
   try {
-    const { email, password } = await req.json();
-    if (email === null || password === null) {
-      return NextResponse.json({ error: "ko có dữ liệu" }, { status: 401 });
-    }
+    const { email, password, role } = await req.json();
     const db = await getDatabase();
-    const data = { email, password };
-    const checkUser = await db.collection("Login").findOne({ email });
-    if (checkUser) {
-      return NextResponse.json({ error: "Email đã tồn tại" }, { status: 401 });
-    }
-    db.collection("Login").insertOne(data);
 
-    return NextResponse.json(data, { status: 200 });
+    // Kiểm tra xem email đã tồn tại chưa
+    const existingUser = await db.collection("Login").findOne({ email });
+    if (existingUser) {
+      return NextResponse.json({ error: "Email đã tồn tại" }, { status: 400 });
+    }
+
+    // Hash mật khẩu trước khi lưu
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Lưu vào MongoDB
+    await db.collection("Login").insertOne({
+      email,
+      password: hashedPassword,
+      role: role || "user",
+    });
+
+    return NextResponse.json(
+      { message: "Đăng ký thành công" },
+      { status: 201 }
+    );
   } catch (error) {
-    return NextResponse.json({ error: "Lỗi kết nối MongoDB" }, { status: 500 });
+    return NextResponse.json({ error: "Lỗi khi đăng ký" }, { status: 500 });
   }
 }
